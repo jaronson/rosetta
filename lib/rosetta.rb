@@ -1,7 +1,10 @@
+require 'active_record'
+require 'i18n/backend/active_record'
 require 'rosetta/version'
+require 'rosetta/error'
 require 'rosetta/concern'
-require 'rosetta/concern/localizable'
-require 'rosetta/concern/translatable'
+require 'rosetta/phrase'
+require 'rosetta/translation'
 
 module Rosetta
 end
