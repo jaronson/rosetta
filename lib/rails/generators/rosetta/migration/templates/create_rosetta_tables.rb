@@ -17,5 +17,6 @@ class CreateRosettaTables < ActiveRecord::Migration
 
   def down
     drop_table :phrases
+    drop_table :translations
   end
 end
