@@ -21,4 +21,4 @@ doc/
 .rspec
 spec/support/database.yml
 spec/support/test.sphinx.conf
-spec/support/migrations.rb
+spec/support/migrate/*

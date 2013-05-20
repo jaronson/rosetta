@@ -5,12 +5,7 @@ require 'rspec/rails/adapters'
 require 'rspec/rails/fixture_support'
 
 ROOT = File.join(File.dirname(__FILE__), '..')
-template_filename  = "#{ROOT}/../lib/rails/generators/rosetta/migration/templates/create_rosetta_tables.rb"
-migration_filename = "#{ROOT}/001_create_rosetta_tables.rb"
-
-File.open(migration_filename, 'w') do |file|
-  file.write(File.read(template_filename))
-end
+require "#{ROOT}/../lib/rails/generators/rosetta/migration/templates/create_rosetta_tables"
 
 ActiveRecord::Base.logger = Logger.new('tmp/ar_debug.log')
 ActiveRecord::Base.configurations = YAML::load(IO.read('spec/support/database.yml'))
@@ -24,7 +19,15 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 end
 
-ActiveRecord::Migrator.migrate([ ROOT ], 1)
+Rspec.configure do |config|
+  config.before(:suite) do
+    CreateRosettaTables.migrate(:up)
+  end
+
+  config.after(:suite) do
+    CreateRosettaTables.migrate(:down)
+  end
+end
 
 class Item < ActiveRecord::Base
   localizes :name, :body
