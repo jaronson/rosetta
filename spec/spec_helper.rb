@@ -2,6 +2,8 @@
 $TESTING=true
 require 'rubygems'
 require 'bundler/setup'
+require 'rails/all'
+require 'rspec/rails'
 
 Bundler.setup(:default)
 

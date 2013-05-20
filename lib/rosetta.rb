@@ -8,3 +8,5 @@ require 'rosetta/translation'
 
 module Rosetta
 end
+
+ActiveRecord::Base.send(:include, Rosetta::Concern::ActiveRecordExtension)

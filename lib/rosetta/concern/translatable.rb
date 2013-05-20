@@ -1,6 +1,10 @@
-module Rosetta::Concern::Translatable
-  extend ActiveSupport::Concern
+module Rosetta
+  module Concern
+    module Translatable
+      extend ActiveSupport::Concern
 
-  module ClassMethods
+      module ClassMethods
+      end
+    end
   end
 end
