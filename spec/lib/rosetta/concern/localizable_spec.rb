@@ -49,7 +49,7 @@ describe Rosetta::Concern::Localizable do
         it 'raises an error' do
           expect {
           instance.phrase_key(:description)
-          }.to raise_error(Rosetta::LocalizationError)
+          }.to raise_error(Rosetta::LocalizedAttributeMissingError)
         end
       end
 

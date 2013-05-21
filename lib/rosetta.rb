@@ -5,6 +5,7 @@ require 'rosetta/error'
 require 'rosetta/concern'
 require 'rosetta/phrase'
 require 'rosetta/translation'
+require 'rosetta/sphinx'
 
 module Rosetta
 end

@@ -1,6 +1,7 @@
 module Rosetta
   module Concern
     module Localizable
+      extend Rosetta::Concern
       extend ActiveSupport::Concern
 
       included do
@@ -12,21 +13,30 @@ module Rosetta
           @localized_attributes ||= {}
         end
 
+        def localizes?(attr)
+          localized_attributes.keys.include?(attr)
+        end
+
         def localizes(*args)
+          Rosetta::Concern::Localizable.add_includer(self)
+          define_localizables(*args)
+        end
+
+        protected
+        def define_localizables(*args)
           attr_opts = args.extract_options!
           attrs     = args
 
           attrs.each do |attr|
+            if self.respond_to?(:columns_hash)
+              attr_opts[:column_attributes] = columns_hash[attr.to_s]
+            end
+
             localized_attributes[attr] = attr_opts
             define_localized_attr(attr, attr_opts)
           end
         end
 
-        def localizes?(attr)
-          localized_attributes.keys.include?(attr)
-        end
-
-        private
         def define_localized_attr(name, opts)
           define_method("localized_#{name}") do |*args, &block|
             opts = args.extract_options!
@@ -36,10 +46,7 @@ module Rosetta
       end
 
       def phrase_key(attr, opts = {})
-        if !localizes?(attr)
-          raise Rosetta::LocalizationError.new("No localization defined for `#{self}' on attribute `#{attr}")
-        end
-
+        raise Rosetta::LocalizedAttributeMissingError.new(self, attr) if !localizes?(attr)
         Rosetta::Concern::PhraseKey.new(self, attr)
       end
 

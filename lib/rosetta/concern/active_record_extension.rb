@@ -5,7 +5,6 @@ module Rosetta
 
       included do
         include Rosetta::Concern::Localizable
-        include Rosetta::Concern::Translatable
       end
     end
   end
